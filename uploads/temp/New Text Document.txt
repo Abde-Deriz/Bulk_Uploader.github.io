@@ -1,0 +1,6 @@
+[
+  "deta",
+  "moda",
+  "modaa",
+  "temp"
+]
