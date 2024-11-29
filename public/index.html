@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bulk Image Uploader</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bulk Image Uploader</h1>
+        
+        <form id="upload-form">
+            <label for="folder-name">Create Folder:</label>
+            <input type="text" id="folder-name" placeholder="Enter folder name" required>
+            
+            <label for="file-input">Drop Images:</label>
+            <input type="file" id="file-input" multiple accept="image/*" required>
+
+            <button type="submit">Upload</button>
+        </form>
+        
+        <div id="progress-container">
+            <p id="progress-text"></p>
+        </div>
+
+        <button id="download-btn" style="display: none;">Download URLs</button>
+        <form id="folder-download-form">
+            <label for="folder-select">Select Folder to Download URLs:</label>
+            <select id="folder-select">
+                <option value="" disabled selected>Select a folder</option>
+            </select>
+            <button type="submit">Download URLs</button>
+        </form>
+        
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
