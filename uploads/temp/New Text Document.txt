@@ -1,6 +1,0 @@
-[
-  "deta",
-  "moda",
-  "modaa",
-  "temp"
-]
