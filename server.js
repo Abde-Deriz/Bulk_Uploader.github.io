@@ -4,20 +4,19 @@ const fs = require("fs");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // Port for Render
 
-// Setup multer for file uploads
-const upload = multer({ dest: "uploads/temp/" });
+// Setup multer to upload files to the 'public/uploads' folder
+const upload = multer({ dest: "public/uploads/temp/" });
 
 app.use(express.static("public"));
-// If needed for other routes
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Endpoint for uploading images
 app.post("/upload", upload.array("images", 1000), (req, res) => {
     const folderName = req.body.folderName;
-    const uploadPath = path.join(__dirname, "uploads", folderName);
+    const uploadPath = path.join(__dirname, "public", "uploads", folderName);
 
     // Create folder if it doesn't exist
     if (!fs.existsSync(uploadPath)) {
@@ -30,7 +29,8 @@ app.post("/upload", upload.array("images", 1000), (req, res) => {
         const newFilePath = path.join(uploadPath, file.originalname);
         fs.renameSync(file.path, newFilePath);
 
-        const fileUrl = `http://localhost:${PORT}/uploads/${folderName}/${file.originalname}`;
+        // Update URL to match public-facing domain on Render
+        const fileUrl = `https://bulk-uploader-github-io.onrender.com/uploads/${folderName}/${file.originalname}`;
         urls.push(fileUrl);
     });
 
@@ -49,7 +49,7 @@ app.get("/download", (req, res) => {
         return res.status(400).send("Folder name is required.");
     }
 
-    const filePath = path.join(__dirname, "uploads", folderName, "output.txt");
+    const filePath = path.join(__dirname, "public", "uploads", folderName, "output.txt");
 
     if (fs.existsSync(filePath)) {
         res.download(filePath);
@@ -58,11 +58,12 @@ app.get("/download", (req, res) => {
     }
 });
 
-
 // Serve static files (uploaded images)
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
+
+// Endpoint for retrieving folder names
 app.get("/folders", (req, res) => {
-    const uploadsPath = path.join(__dirname, "uploads");
+    const uploadsPath = path.join(__dirname, "public", "uploads");
 
     fs.readdir(uploadsPath, { withFileTypes: true }, (err, files) => {
         if (err) {
@@ -71,7 +72,7 @@ app.get("/folders", (req, res) => {
         }
 
         const folders = files
-            .filter((file) => file.isDirectory())
+            .filter((file) => file.isDirectory()) // Only directories
             .map((folder) => folder.name);
 
         console.log("Folders found:", folders); // Debug log
@@ -79,7 +80,7 @@ app.get("/folders", (req, res) => {
     });
 });
 
-
+// Start the server
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
 });
