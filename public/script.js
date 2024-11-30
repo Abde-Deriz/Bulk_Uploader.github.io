@@ -129,4 +129,32 @@ function closeFullScreenImage() {
     modal.style.display = "none";
 }
 
+///////////////////
 
+// script.js
+
+// Handle the folder deletion
+document.getElementById("delete-folder-btn").addEventListener("click", function() {
+    const selectedFolder = document.getElementById("folder-select").value;
+
+    if (!selectedFolder) {
+        alert("Please select a folder to delete.");
+        return;
+    }
+
+    fetch(`/delete-folder?folder=${selectedFolder}`, {
+        method: "DELETE", // Use DELETE method to remove the folder
+    })
+    .then(response => {
+        if (response.ok) {
+            alert("Folder deleted successfully.");
+            location.reload(); // Reload the page to reflect the changes
+        } else {
+            alert("Failed to delete folder.");
+        }
+    })
+    .catch(error => {
+        console.error("Error deleting folder:", error);
+        alert("Error deleting folder.");
+    });
+});
