@@ -90,16 +90,14 @@ app.delete("/delete-folder", (req, res) => {
         return res.status(400).send("Folder name is required.");
     }
 
-    // Check if the folder exists
     if (fs.existsSync(folderPath)) {
-        // Remove the folder and its contents
         fs.rmSync(folderPath, { recursive: true, force: true });
-        console.log(`Folder ${folderName} deleted.`);
         res.status(200).send("Folder deleted successfully.");
     } else {
         res.status(404).send("Folder not found.");
     }
 });
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
