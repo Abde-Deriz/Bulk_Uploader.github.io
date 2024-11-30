@@ -80,6 +80,26 @@ app.get("/folders", (req, res) => {
     });
 });
 
+
+// Endpoint to delete a folder
+app.delete("/delete-folder", (req, res) => {
+    const folderName = req.query.folder;
+    const folderPath = path.join(__dirname, "uploads", folderName);
+
+    if (!folderName) {
+        return res.status(400).send("Folder name is required.");
+    }
+
+    // Check if the folder exists
+    if (fs.existsSync(folderPath)) {
+        // Remove the folder and its contents
+        fs.rmSync(folderPath, { recursive: true, force: true });
+        console.log(`Folder ${folderName} deleted.`);
+        res.status(200).send("Folder deleted successfully.");
+    } else {
+        res.status(404).send("Folder not found.");
+    }
+});
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server running at http://localhost:${PORT}`);
