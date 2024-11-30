@@ -68,7 +68,7 @@ app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
 
 // Endpoint for retrieving folder names
 app.get("/folders", (req, res) => {
-    const uploadsPath = path.join(__dirname, "public", "uploads");
+    const uploadsPath = path.join(__dirname, "uploads");
 
     fs.readdir(uploadsPath, { withFileTypes: true }, (err, files) => {
         if (err) {
@@ -77,7 +77,7 @@ app.get("/folders", (req, res) => {
         }
 
         const folders = files
-            .filter((file) => file.isDirectory()) // Only directories
+            .filter((file) => file.isDirectory())
             .map((folder) => folder.name);
 
         console.log("Folders found:", folders); // Debug log
