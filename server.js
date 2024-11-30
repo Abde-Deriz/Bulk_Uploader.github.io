@@ -7,8 +7,13 @@ const app = express();
 const PORT = process.env.PORT || 3000; // Port for Render
 
 // Setup multer to upload files to the 'public/uploads' folder
-const upload = multer({ dest: "public/uploads/temp/" });
-
+const upload = multer({
+    dest: "uploads/temp/",
+    limits: {
+        fileSize: 5 * 1024 * 1024, // 20 MB per file
+        files: 5000,               // Allow up to 5000 files
+    },
+});
 app.use(express.static("public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
