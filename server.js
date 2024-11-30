@@ -11,7 +11,7 @@ const upload = multer({
     dest: "uploads/temp/",
     limits: {
         fileSize: 5 * 1024 * 1024, // 20 MB per file
-        files: 5000,               // Allow up to 5000 files
+        files: 10000,               // Allow up to 5000 files
     },
 });
 app.use(express.static("public"));
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Endpoint for uploading images
-app.post("/upload", upload.array("images", 1000), (req, res) => {
+app.post("/upload", upload.array("images", 10000), (req, res) => {
     const folderName = req.body.folderName;
     const uploadPath = path.join(__dirname, "public", "uploads", folderName);
 
