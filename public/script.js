@@ -54,9 +54,11 @@ async function loadFolders() {
         const response = await fetch("/folders");
         if (response.ok) {
             const folders = await response.json();
-            console.log("Folders fetched:", folders); // Log folders
+            console.log("Folders fetched:", folders); // Debug log
 
             const folderSelect = document.getElementById("folder-select");
+            folderSelect.innerHTML = ""; // Clear previous options
+
             folders.forEach((folder) => {
                 const option = document.createElement("option");
                 option.value = folder;
@@ -86,7 +88,9 @@ document.getElementById("folder-download-form").addEventListener("submit", (e) =
 });
 
 // Load folders on page load
-loadFolders();
+document.addEventListener("DOMContentLoaded", () => {
+    loadFolders(); // Load folders when the DOM is ready
+});
 
 
 ///////////////////////////////
@@ -130,6 +134,8 @@ function closeFullScreenImage() {
 }
 
 ///////////////////
+
+// script.js
 
 // script.js
 
