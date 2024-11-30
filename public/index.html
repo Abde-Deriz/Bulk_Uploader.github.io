@@ -29,14 +29,19 @@
         </div>
 
         <button id="download-btn" style="display: none;">Download URLs</button>
+
         <form id="folder-download-form">
             <label for="folder-select">Select Folder to Download URLs:</label>
             <select id="folder-select">
                 <option value="" disabled selected>Select a folder</option>
             </select>
             <button type="submit">Download URLs</button>
+            <button id="delete-folder-btn">Delete Folder</button>
+
         </form>
-        
+        <!-- Add this button in your index.html -->
+
+
     </div>
     <div id="full-screen-modal" onclick="closeFullScreenImage()">
         <img id="full-screen-image" src="" alt="Full Screen">
