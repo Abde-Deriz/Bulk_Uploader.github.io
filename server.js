@@ -21,7 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 // Endpoint for uploading images
 app.post("/upload", upload.array("images", 10000), (req, res) => {
     const folderName = req.body.folderName;
-    const uploadPath = path.join(__dirname, "public", "uploads", folderName);
+    const uploadPath = path.join(__dirname, "uploads", folderName);
 
     // Create folder if it doesn't exist
     if (!fs.existsSync(uploadPath)) {
@@ -54,7 +54,7 @@ app.get("/download", (req, res) => {
         return res.status(400).send("Folder name is required.");
     }
 
-    const filePath = path.join(__dirname, "public", "uploads", folderName, "output.txt");
+    const filePath = path.join(__dirname, "uploads", folderName, "output.txt");
 
     if (fs.existsSync(filePath)) {
         res.download(filePath);
@@ -64,7 +64,7 @@ app.get("/download", (req, res) => {
 });
 
 // Serve static files (uploaded images)
-app.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Endpoint for retrieving folder names
 app.get("/folders", (req, res) => {
